@@ -1,0 +1,77 @@
+body {
+    background-color: #F6F6F6;
+    font-family: 'Mukta', sans-serif;
+
+}
+
+h1 {
+    font-family: 'Alfa Slab One', cursive;
+}
+
+footer {
+    background-color: #BAD7DF;
+    padding-top: 1%;
+}
+
+.navbar {
+    background-color: #21325E;
+}
+
+.heading {
+    padding: 5% 15%;
+    background-color: #86C6F4;
+}
+
+.form-container {
+    padding: 3% 30%;
+    margin: 0px;
+}
+
+.heading-text {
+    font-size: 5rem;
+    padding-bottom: 20px;
+}
+
+.subheading-text {
+    font-size: 3rem;
+    padding-bottom: 20px;
+}
+
+.heading-btns {
+    padding: 10px 20px;
+    margin-right: 50px;
+}
+
+.features {
+    padding: 5% 15%;
+}
+
+.img-col {
+    text-align: right;
+}
+
+.feature-img {
+    height: 200px;
+
+}
+
+.login-register-heading {
+    text-align: center;
+}
+
+.error {
+    color: red;
+}
+
+.task-heading {
+    background-color: #86C6F4;
+    padding: 2% 15%;
+}
+
+.task-columns {
+    padding: 2% 10%;
+}
+
+.edit-ctn {
+    padding: 2% 30%;
+}

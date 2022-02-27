@@ -1,0 +1,34 @@
+{% include "header.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{{ ckeditor.load() }}
+<body>
+<div class="task-container">
+    <div class="task-heading">
+        <h1 class="text-center heading-text">Welcome, {{ user.username }}!</h1>
+        <h2 class="text-center">{{ message }}</h2>
+        {% if user.complete: %}
+        <h2 class="text-center">You have checked off {{ user.complete }} To-Dos!</h2>
+        {% else: %}
+        <h2 class="text-center">You haven't checked off any ToDos!</h2>
+        {% endif %}
+    </div>
+    <div class="container-fluid edit-ctn">
+        <h1>Edit Your ToDo</h1>
+        <div class="card">
+            <form id="todoform" method="post">
+                {{ wtf.form_field(form.name, class="form-control") }}
+                {{ wtf.form_field(form.description, class="form-control") }}
+                {{ ckeditor.load() }}
+                {{ ckeditor.config(name='description') }}
+                {{ wtf.form_field(form.start_date, class='form-control') }}
+                {{ wtf.form_field(form.end_date, class="form-control") }}
+                {{ wtf.form_field(form.submit, class="form-control", class="btn btn-primary btn-xl") }}
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% include "footer.html" %}
+</body>
+</html>

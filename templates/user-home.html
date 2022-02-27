@@ -1,0 +1,54 @@
+{% include "header.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{{ ckeditor.load() }}
+<body>
+<div class="task-container">
+    <div class="task-heading">
+         <h1 class="text-center heading-text">Welcome, {{ user.username }}!</h1>
+        <h2 class="text-center">{{ message }}</h2>
+        {% if user.complete: %}
+        <h2 class="text-center">You have checked off {{ user.complete }} To-Dos!</h2>
+        {% else: %}
+        <h2 class="text-center">You haven't checked off any ToDos!</h2>
+        {% endif %}
+    </div>
+    <div class="row container-fluid task-columns">
+        <div class="col-lg-6">
+            <h1>Add a To-Do</h1>
+            <div class="card">
+                <form id="todoform" method="post">
+                {{ wtf.form_field(form.name, class="form-control") }}
+                {{ wtf.form_field(form.description, class="form-control") }}
+                {{ ckeditor.load() }}
+                {{ ckeditor.config(name='description') }}
+                {{ wtf.form_field(form.start_date, class='form-control') }}
+                {{ wtf.form_field(form.end_date, class="form-control") }}
+                {{ wtf.form_field(form.submit, class="form-control", class="btn btn-primary btn-xl") }}
+            </form>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h1>Current ToDos</h1>
+            {% if todos: %}
+            {% for todo in todos: %}
+            <div class="card">
+                <h3 class="card-header">{{ todo.name }}</h3>
+                <div class="card-body">
+                    <p class="text">{{ todo.description|safe }}</p>
+                    <p class="card-text">Start Date: {{ todo.start_date }}</p>
+                    <p class="card-text">End Date: {{ todo.end_date }}</p>
+                    <a href="{{ url_for('check_off', task_id=todo.id) }}" class="btn btn-success">Check Off</a>
+                    <a href="{{ url_for('edit', task_id=todo.id) }}" class="btn btn-outline-info">Edit</a>
+                    <a href="{{ url_for('delete_task', task_id=todo.id) }}" class="btn btn-outline-danger">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% include "footer.html" %}
+</body>
+</html>

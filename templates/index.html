@@ -1,0 +1,39 @@
+{% include "header.html" %}
+<body>
+<section id="heading">
+    <div class="container-fluid">
+        <div class="row heading">
+            <div class="col text-col">
+                <h1 class="heading-text">Welcome to the To-Do Manager!</h1>
+                <h2 class="subheading-text">Track your to-dos with our easy-to-use site!</h2>
+                <a class="btn btn-primary heading-btns" href="{{ url_for('login') }}" role="button">Login</a>
+                <a class="btn btn-light heading-btns" href="{{ url_for('register') }}" role="button">Register</a>
+            </div>
+            <div class="col img-col">
+                <img src="/static/images/check-list.png">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="features">
+    <div class="container-fluid">
+        <div class="row features text-center">
+            <div class="col-md-4">
+                <h1>Decide your To-Dos</h1>
+                <img class="feature-img" src="/static/images/test.png">
+            </div>
+            <div class="col-md-4">
+                <h1>Set Your Dates</h1>
+                <img class="feature-img" src="/static/images/schedule.png">
+            </div>
+            <div class="col-md-4">
+                <h1>Check Them Off!</h1>
+                <img class="feature-img" src="/static/images/goal.png">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% include "footer.html" %}
