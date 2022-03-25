@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 from urllib.parse import urlparse, urljoin
 import werkzeug
 from werkzeug.security import generate_password_hash, check_password_hash
-import datetime
+from datetime import datetime
 import os
 
 #App Inits
@@ -56,15 +56,18 @@ def is_safe_url(target):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+@app.context_processor
+def inject_year():
+    year = datetime.now().year
+    return dict(year=year)
+
 ##Home, Login, Register, and Logout Routes##
 @app.route("/")
 def home():
-    year = datetime.datetime.now().year
-    return render_template("index.html", year=year)
+    return render_template("index.html")
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    year = datetime.datetime.now().year
     error = ""
     form = RegisterUserForm()
     if form.validate_on_submit():
@@ -81,11 +84,10 @@ def register():
             return redirect(url_for("user_home", user_id=new_user.id))
         except sqlalchemy.exc.IntegrityError:
             error = "You've already signed up using that email. Please use the login function instead."
-    return render_template("register.html", form=form, year=year, error=error)
+    return render_template("register.html", form=form, error=error)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    year = datetime.datetime.now().year
     form = LoginUserForm()
     error = ""
     if form.validate_on_submit():
@@ -107,7 +109,7 @@ def login():
                 return abort(404)
             else:
                 return redirect(url_for("user_home", user_id=user.id))
-    return render_template("login.html", form=form, error=error, year=year)
+    return render_template("login.html", form=form, error=error)
 
 @app.route('/logout')
 @login_required
@@ -126,7 +128,6 @@ def user_home(user_id):
         except TypeError:
             message = f"You currently have no To-Dos!"
         form = ToDoForm()
-        year = datetime.datetime.now().year
         if request.method == "POST":
             new_task = ToDo(
                 name=form.name.data,
@@ -138,7 +139,7 @@ def user_home(user_id):
             db.session.add(new_task)
             db.session.commit()
             return redirect(url_for("user_home", user_id=current_user.id))
-        return render_template("user-home.html", year=year, user=user, form=form, message=message, todos=todos)
+        return render_template("user-home.html", user=user, form=form, message=message, todos=todos)
 
 @app.route("/check-off/<int:task_id>")
 def check_off(task_id):
@@ -153,7 +154,6 @@ def check_off(task_id):
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
 def edit(task_id):
     if current_user.is_authenticated:
-        year = datetime.datetime.now().year
         user = User.query.get(current_user.id)
         task_edit = ToDo.query.get(task_id)
         todos = ToDo.query.filter_by(user_id=current_user.id).all()
@@ -174,7 +174,7 @@ def edit(task_id):
             task_edit.end_date = edit_form.end_date.data
             db.session.commit()
             return redirect(url_for("user_home", user_id=current_user.id))
-        return render_template("edit.html", user_id=current_user.id, form=edit_form, user=user, message=message, year=year)
+        return render_template("edit.html", user_id=current_user.id, form=edit_form, user=user, message=message)
 
 @app.route("/delete/<int:task_id>")
 def delete_task(task_id):
